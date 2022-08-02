@@ -56,8 +56,8 @@ class _HomePage1State extends State<HomePage1> {
               height: MediaQuery.of(context).size.height*0.30,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                //color: Color(0xff094190)
-                color: Colors.blue
+                color: Color(0xff094190)
+                //color: Colors.blue
               ),
               child: Column(
                 children: [
