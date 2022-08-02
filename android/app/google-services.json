@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387814849172",
+    "project_id": "deliverer-a8395",
+    "storage_bucket": "deliverer-a8395.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387814849172:android:7616c5c89e9143cd145281",
+        "android_client_info": {
+          "package_name": "com.ralfiz.the_deliverer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387814849172-8c27a2f2lds7frs2jj7hhuglk8nqcel0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjYHLPzifPooIGujwDQrgZoyvjCaynDkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387814849172-8c27a2f2lds7frs2jj7hhuglk8nqcel0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
