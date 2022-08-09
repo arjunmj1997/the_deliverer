@@ -8,14 +8,15 @@ import 'package:the_deliverer/validation.dart';
 import 'package:the_deliverer/widgets/appbutton.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/appnormaltext.dart';
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class EditManagerProfile extends StatefulWidget {
+  final String? uid;
+  const EditManagerProfile({Key? key, this.uid}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _EditManagerProfileState createState() => _EditManagerProfileState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _EditManagerProfileState extends State<EditManagerProfile> {
   //controller declaration for Textform fields
   TextEditingController namecontroller= TextEditingController();
   TextEditingController emailcontroller= TextEditingController();
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController experienceController= TextEditingController();
   TextEditingController ageController= TextEditingController();
   var regkey= GlobalKey<FormState>();
+  var district;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +54,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         AppHeadingText(text: "Register",size: 50,color: Colors.blue,fw:FontWeight.normal,),
                         SizedBox(height: 20,),
-                      AppNormalText(text:"Please enter details to Register",color: Colors.indigo,size: 16,fw: FontWeight.normal,),
+                        AppNormalText(text:"Please enter details to Register",color: Colors.indigo,size: 16,fw: FontWeight.normal,),
                         SizedBox(height: 20,),
                         //form fields start here
                         TextFormField(
                           validator: (value){
                             return Validate.namevalidator(namecontroller.text);
-                        },
+                          },
                           keyboardType: TextInputType.phone,
                           controller: namecontroller,
                           decoration: InputDecoration(
@@ -124,31 +126,59 @@ class _RegisterPageState extends State<RegisterPage> {
                             validator: (value){
                               return Validate.namevalidator(addressController.text);
                             },
-                          textAlignVertical: TextAlignVertical.bottom,
-                          controller: addressController,
-                          maxLines: 5,
-                          decoration:const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(width:1,color: Colors.blue)
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(width:1,color: Colors.red)
-                            ),
+                            textAlignVertical: TextAlignVertical.bottom,
+                            controller: addressController,
+                            maxLines: 5,
+                            decoration:const InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(width:1,color: Colors.blue)
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(width:1,color: Colors.red)
+                              ),
 
-                            hintText: "Address",
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(bottom: 74),
-                              child: Icon(Icons.account_box_outlined),
-                            ),
+                              hintText: "Address",
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(bottom: 74),
+                                child: Icon(Icons.account_box_outlined),
+                              ),
                             )
-                            //labelText: "Address",
+                          //labelText: "Address",
 
 
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: district,
+                          decoration: InputDecoration(
+                            hintText: "district",
+
+                            //suffixIcon: Icon(Icons.panorama_fish_eye),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                           ),
-
+                          onChanged: (ctgry) =>
+                              setState(() => district = ctgry),
+                          validator: (value) => value == null ? 'field required' : null,
+                          items: ['palakkad', 'malappuram', 'thrissur', 'kollam', 'kottayam', 'ernakulam','alappuzha','pathanamthitta','trivandrum','idukki','wayanad','kozhikkode','kannur','kasargod']
+                              .map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                        ),
 
                         TextFormField(
                           validator: (value){
+                            if (value=="") {
+                              return null;
+                            }
+
                             return Validate.phonevalidator(mobilenumcontroller.text);
                           },
                           keyboardType: TextInputType.phone,
@@ -166,33 +196,33 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               hintText: "mobile",
                               hintStyle: TextStyle(color: Colors.black54),
-                            prefixIcon: Icon(Icons.phone_android)
+                              prefixIcon: Icon(Icons.phone_android)
                           ),
 
                         ),
                         SizedBox(
                           height: 10,),
-                            TextFormField(
+                        TextFormField(
 
-                            keyboardType: TextInputType.phone,
-                            controller: usernamecontroller,
-                            decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Colors.blue),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Colors.red),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                hintText: "username",
-                                hintStyle: TextStyle(color: Colors.black54),
-                                prefixIcon: Icon(Icons.account_box_outlined)
-                            ),
-
+                          keyboardType: TextInputType.phone,
+                          controller: usernamecontroller,
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                const BorderSide(width: 1, color: Colors.blue),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                const BorderSide(width: 1, color: Colors.red),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              hintText: "username",
+                              hintStyle: TextStyle(color: Colors.black54),
+                              prefixIcon: Icon(Icons.account_box_outlined)
                           ),
+
+                        ),
 
 
                         SizedBox(height: 10,),
@@ -246,7 +276,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           validator: (value) {
 
                             if (value == null || value.isEmpty) {
-                            return "Enter experience";
+                              return "Enter experience";
                             }
                           },
                           maxLines: 5,
@@ -274,49 +304,51 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 30,),
 
 
-                       GestureDetector(
-                         onTap: () {
-                           if (regkey.currentState!.validate()) {
-                             FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailcontroller.text.trim(), password: passwordcontroller.text.trim()).
-                             then((user) => FirebaseFirestore.instance.collection("Login").doc(user.user!.uid).set({
-                               'uid':user.user!.uid,
-                               'name':namecontroller.text,
-                               'email':emailcontroller.text,
-                               'password':passwordcontroller.text,
-                               'userrole':'user'
+                        GestureDetector(
+                            onTap: () {
+                              if (regkey.currentState!.validate()) {
+                                //FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailcontroller.text.trim(), password: passwordcontroller.text.trim()).
 
-                             }).then((value) => FirebaseFirestore.instance.collection('user').doc(user.user!.uid).set({
-                               'uid':user.user!.uid,
-                               'name':namecontroller.text,
-                               'email':emailcontroller.text,
-                               'password':passwordcontroller.text,
+                                    FirebaseFirestore.instance.collection("Login").doc(widget.uid).update({
 
-                               'address':addressController.text,
-                               'mobile':mobilenumcontroller.text,
-                               'username':usernamecontroller.text,
-                               'experience':experienceController.text,
+                                  'name':namecontroller.text,
+                                  'email':emailcontroller.text,
+                                  'password':passwordcontroller.text,
 
 
+                                }).then((value) => FirebaseFirestore.instance.collection('manager').doc(widget.uid).update({
 
-                               'createdAt':DateTime.now(),
-                               'updatedAt':null,
-                               'status':1
+                                  'name':namecontroller.text,
+                                  'email':emailcontroller.text,
+                                  'password':passwordcontroller.text,
+
+                                  'address':addressController.text,
+                                  'mobile':mobilenumcontroller.text,
+                                  'username':usernamecontroller.text,
+                                  'experience':experienceController.text,
+                                  'district':district,
 
 
-                             }).then((value) => print("registered")) ));
-                             //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminPage()));
-                           }
 
-                         },
-                           child: ResponsiveButton(text:"SAVE",width: MediaQuery.of(context).size.width,txtcolor: Colors.white,)),
-                            SizedBox(
-                             height: 10,
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.pop(context);
-                              },
-                                child: ResponsiveButton(text:"BACK",width: MediaQuery.of(context).size.width,txtcolor: Colors.white,)),
+                                  'createdAt':DateTime.now(),
+                                  'updatedAt':null,
+
+
+
+                                }).then((value) => print("edited")) );
+                                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminPage()));
+                              }
+
+                            },
+                            child: ResponsiveButton(text:"EDIT",width: MediaQuery.of(context).size.width,txtcolor: Colors.white,)),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: ResponsiveButton(text:"BACK",width: MediaQuery.of(context).size.width,txtcolor: Colors.white,)),
 
                       ],
                     ),

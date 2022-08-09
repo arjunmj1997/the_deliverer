@@ -6,14 +6,20 @@ import 'package:image_picker/image_picker.dart';
 import 'package:the_deliverer/models/appbar.dart';
 import 'package:the_deliverer/screens/homepage1.dart';
 import 'package:the_deliverer/screens/listpage.dart';
+import 'package:the_deliverer/screens/manager.dart';
 import 'package:the_deliverer/screens/payment.dart';
+import 'package:the_deliverer/screens/paymentworkers.dart';
+import 'package:the_deliverer/screens/register.dart';
 import 'package:the_deliverer/screens/registerfunction.dart';
+import 'package:the_deliverer/screens/registermanager.dart';
 import 'package:the_deliverer/screens/requestspage.dart';
 import 'package:the_deliverer/screens/workerspage.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/recatanglebutton.dart';
 class AdminPage extends StatefulWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final String? name;
+  final String? uid;
+  const AdminPage({Key? key, this.name, this.uid}) : super(key: key);
 
   @override
   State<AdminPage> createState() => _AdminPageState();
@@ -21,12 +27,13 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixin {
   late TabController _controller;
+  var name="Arjun";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller=TabController(length:4, vsync:this,initialIndex:0);
+    _controller=TabController(length:3, vsync:this,initialIndex:0);
   }
   @override
   Widget build(BuildContext context) {
@@ -83,7 +90,34 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterFunction()));
               },
-                child : RectangularButton(text: "Register Function",width: 200,hi: 30,))
+                child : RectangularButton(text: "Register Function",width: 200,hi: 30,)),
+                 SizedBox(
+                   height: 10,
+                 ),
+                 GestureDetector(
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterManager()));
+                   },
+                     child: RectangularButton(text: "Register Manager",width: 200,hi: 30,)),
+                 SizedBox(
+                   height: 10,
+                 ),
+                 GestureDetector(
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerPage()));
+                   },
+                     child: RectangularButton(text: "View Managers",width: 200,hi: 30,)),
+                 SizedBox(
+                   height: 10,
+                 ),
+                 GestureDetector(
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
+                       payename: name,
+                     )));
+                   },
+                     child: RectangularButton(text: "Payment",width: 200,hi: 30,)),
+
 
           ],
         ),
@@ -113,9 +147,8 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
             Tab(
               text: "REQUESTS",
             ),
-            Tab(
-              text: "PAYMENT",
-            )
+
+
           ],
         ),
     ),
@@ -129,7 +162,7 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
 
          WorkersPage(),
           RequestPage(),
-          Payment()
+
 
 
 

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'appheadingtext.dart';
 class CustomCard extends StatefulWidget {
-  const CustomCard({Key? key}) : super(key: key);
+  final Widget? child;
+  const CustomCard({Key? key, this.child}) : super(key: key);
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -16,10 +17,10 @@ class _CustomCardState extends State<CustomCard> {
       width: MediaQuery.of(context).size.width,
       child: Card(
         elevation:20,
-       // shadowColor: Colors.grey,
-        semanticContainer: true,
+        // shadowColor: Colors.grey,
+       // semanticContainer: true,
         color: Colors.grey,
-        child: AppHeadingText(text: "hello",),
+
       ),
     );
   }

@@ -10,6 +10,7 @@ import '../widgets/appbutton.dart';
 import '../widgets/appheadingtext.dart';
 import '../widgets/appnormaltext.dart';
 class DetailsAdminEdit extends StatefulWidget {
+
   const DetailsAdminEdit({Key? key}) : super(key: key);
 
   @override

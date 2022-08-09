@@ -3,13 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:the_deliverer/models/containerstyle.dart';
 import 'package:the_deliverer/models/listview.dart';
+import 'package:the_deliverer/screens/personpayment.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/customdrawer.dart';
 
 import '../models/appcontainer.dart';
 import '../widgets/appnormaltext.dart';
 class PaymentWorkers extends StatefulWidget {
-  const PaymentWorkers({Key? key}) : super(key: key);
+  final String? payename;
+  final String? receiveid;
+  const PaymentWorkers({Key? key, this.payename, this.receiveid}) : super(key: key);
 
   @override
   _PaymentWorkersState createState() => _PaymentWorkersState();
@@ -48,34 +51,42 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                     crossAxisAlignment: CrossAxisAlignment.center,
 
                     children: [
-                      Container(
-                        height: 200,
-                        width: 300,
-                        decoration: BoxDecoration(
+                      GestureDetector(
+                        onTap:(){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
+                            payename: widget.payename,
+                            receiveid: widget.receiveid,
+                          )));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 300,
+                          decoration: BoxDecoration(
 
-                            gradient: LinearGradient(colors: [
-                              // Color(0xff9542f5),
+                              gradient: LinearGradient(colors: [
+                                // Color(0xff9542f5),
 
-                              Color(0xff0d87d4),
-                              Color(0xff42b0f5),
+                                Color(0xff0d87d4),
+                                Color(0xff42b0f5),
 
-                            ]),
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/moneypay.jpg"),
-                                fit: BoxFit.fill
-                            )
-                        ),
-                        child:Align(
-                          alignment: Alignment.bottomLeft,
-                          child: ListTile(
-                            title: Padding(
-                              padding: const EdgeInsets.only(left: 8.0,),
-                              child: AppNormalText(text:"TO",size: 30,color:Colors.black,fw: FontWeight.normal,),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: AppNormalText(text:"Person",size: 26,color:Colors.black,fw: FontWeight.normal,),
+                              ]),
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/moneypay.jpg"),
+                                  fit: BoxFit.fill
+                              )
+                          ),
+                          child:Align(
+                            alignment: Alignment.bottomLeft,
+                            child: ListTile(
+                              title: Padding(
+                                padding: const EdgeInsets.only(left: 8.0,),
+                                child: AppNormalText(text:"TO",size: 30,color:Colors.black,fw: FontWeight.normal,),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: AppNormalText(text:"Person",size: 26,color:Colors.black,fw: FontWeight.normal,),
+                              ),
                             ),
                           ),
                         ),

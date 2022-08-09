@@ -14,6 +14,7 @@ class RegisterFunction extends StatefulWidget {
   String? uid;
   String? name;
 
+
    RegisterFunction({Key? key,this.name,this.uid}) : super(key: key);
 
   @override
@@ -23,6 +24,7 @@ class RegisterFunction extends StatefulWidget {
 class _RegisterFunctionState extends State<RegisterFunction> {
   var uuid = Uuid();
   var eid;
+  var district;
 
 
   TextEditingController namecontroller = TextEditingController();
@@ -183,28 +185,51 @@ class _RegisterFunctionState extends State<RegisterFunction> {
                         SizedBox(
                           height: 10,
                         ),
-                        TextFormField(
-                          validator: (value) {
-                            return Validate.namevalidator(
-                                functioncontroller.text);
-                          },
-                          keyboardType: TextInputType.text,
-                          controller: functioncontroller,
+                        // TextFormField(
+                        //   validator: (value) {
+                        //     return Validate.namevalidator(
+                        //         functioncontroller.text);
+                        //   },
+                        //   keyboardType: TextInputType.text,
+                        //   controller: functioncontroller,
+                        //   decoration: InputDecoration(
+                        //       enabledBorder: UnderlineInputBorder(
+                        //         borderSide: const BorderSide(
+                        //             width: 1, color: Colors.blue),
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       focusedBorder: UnderlineInputBorder(
+                        //         borderSide: const BorderSide(
+                        //             width: 1, color: Colors.red),
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       hintText: "District",
+                        //       hintStyle: TextStyle(color: Colors.black54),
+                        //       prefixIcon: Icon(Icons.add_location)),
+                        // ),
+                        DropdownButtonFormField<String>(
+                          value: district,
                           decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 1, color: Colors.blue),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 1, color: Colors.red),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              hintText: "Location Name",
-                              hintStyle: TextStyle(color: Colors.black54),
-                              prefixIcon: Icon(Icons.add_location)),
+                            hintText: "district",
+
+                            //suffixIcon: Icon(Icons.panorama_fish_eye),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          onChanged: (ctgry) =>
+                              setState(() => district = ctgry),
+                          validator: (value) => value == null ? 'field required' : null,
+                          items: ['palakkad', 'malappuram', 'thrissur', 'kollam', 'kottayam', 'ernakulam','alappuzha','pathanamthitta','trivandrum','idukki','wayanad','kozhikkode','kannur','kasargod']
+                              .map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                         ),
+
 
                         SizedBox(
                           height: 10,
@@ -434,6 +459,14 @@ class _RegisterFunctionState extends State<RegisterFunction> {
                                     'createdAt': DateTime.now(),
                                     'registeredby':widget.uid,
                                     'regname':widget.name,
+                                    'managername':null,
+                                    'managerid':null,
+                                    'managercontactno':null,
+                                    'managerstatus':0,
+                                    'locationname':district,
+                                    'userstatus':0,
+                                    'assignid':null,
+
 
 
                                     'status': 1

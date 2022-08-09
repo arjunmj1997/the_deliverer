@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:the_deliverer/screens/detailspage.dart';
@@ -30,7 +31,7 @@ class _RequestPageState extends State<RequestPage> {
     // borderRadius: BorderRadius.circular(60)
     ),
     child: StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance.collection("user").snapshots(),
+    stream: FirebaseFirestore.instance.collection("user").where('status',isEqualTo: 1).snapshots(),
     builder: (context,snapshot) {
       if (!snapshot.hasData) {
         return Center(
@@ -75,6 +76,10 @@ class _RequestPageState extends State<RequestPage> {
                               padding: const EdgeInsets.only(top: 15),
                               child: GestureDetector(
                                   onTap: () {
+                                    FirebaseFirestore.instance.collection('user').doc(snapshot.data!.docs[index]['uid']).update({
+
+                                      'status':2
+                                    });
 
                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsAdminEdit()));
                                   },
@@ -92,7 +97,12 @@ class _RequestPageState extends State<RequestPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    FirebaseFirestore.instance.collection('user').doc(snapshot.data!.docs[index]['uid']).update({
+
+                                      'status':0
+                                    });
+                                  },
                                   child: RectangularButton(text: "DECLINE",
                                     width: MediaQuery
                                         .of(context)

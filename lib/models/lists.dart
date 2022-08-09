@@ -15,3 +15,6 @@
 List details=[
  'name','mob','emial'
 ];
+ List db=[
+  'customername','locationname','email'
+ ];

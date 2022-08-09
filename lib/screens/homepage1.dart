@@ -4,6 +4,7 @@ import 'package:the_deliverer/models/appbar.dart';
 import 'package:the_deliverer/models/containerstyle.dart';
 import 'package:the_deliverer/models/lists.dart';
 import 'package:the_deliverer/models/models1.dart';
+import 'package:the_deliverer/screens/editprofile.dart';
 import 'package:the_deliverer/screens/functionlist.dart';
 import 'package:the_deliverer/screens/loginpage.dart';
 import 'package:the_deliverer/screens/payment.dart';
@@ -12,6 +13,7 @@ import 'package:the_deliverer/screens/register.dart';
 import 'package:the_deliverer/screens/registerfunction.dart';
 import 'package:the_deliverer/widgets/appbutton.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
+import 'package:the_deliverer/widgets/recatanglebutton.dart';
 
 import '../widgets/appnormaltext.dart';
 
@@ -78,6 +80,16 @@ class _HomePage1State extends State<HomePage1> {
      AppHeadingText(text:"Name: ${widget.name.toString()}"),
      AppHeadingText(text:"Mobile: ${widget.mob.toString()}"),
      AppHeadingText(text:"Email: ${widget.emial.toString()}"),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfile(uid: widget.uid,)));
+
+                 },
+                child: RectangularButton(text:"EDIT",hi:30,width: 100,)),
+
 
 
 
@@ -237,7 +249,10 @@ left: 0,
                       left:0,
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
+                            payename: widget.name,
+                            receiveid: widget.uid,
+                          )));
                         },
                         child: ResponsiveButton(
                           width: MediaQuery.of(context).size.width*0.95,
