@@ -5,18 +5,24 @@ import 'package:the_deliverer/screens/personpayment.dart';
 
 import '../models/appcontainer.dart';
 import '../widgets/appheadingtext.dart';
-class WorkersPage extends StatefulWidget {
+class UserList extends StatefulWidget {
+  final String? payename;
+  final String? receiveid;
+  final String? adid;
 
-  WorkersPage({Key? key}) : super(key: key);
+  UserList({Key? key, this.payename, this.receiveid, this.adid}) : super(key: key);
 
   @override
-  _WorkersPageState createState() => _WorkersPageState();
+  _UserListState createState() => _UserListState();
 }
 
-class _WorkersPageState extends State<WorkersPage> {
+class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,

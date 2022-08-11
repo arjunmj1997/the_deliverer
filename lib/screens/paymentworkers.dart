@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:the_deliverer/models/containerstyle.dart';
 import 'package:the_deliverer/models/listview.dart';
 import 'package:the_deliverer/screens/personpayment.dart';
+import 'package:the_deliverer/screens/userslist.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/customdrawer.dart';
 
@@ -12,7 +13,9 @@ import '../widgets/appnormaltext.dart';
 class PaymentWorkers extends StatefulWidget {
   final String? payename;
   final String? receiveid;
-  const PaymentWorkers({Key? key, this.payename, this.receiveid}) : super(key: key);
+  final String? role;
+  final String? adid;
+  const PaymentWorkers({Key? key, this.payename, this.receiveid, this.role, this.adid}) : super(key: key);
 
   @override
   _PaymentWorkersState createState() => _PaymentWorkersState();
@@ -53,9 +56,10 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                     children: [
                       GestureDetector(
                         onTap:(){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>UserList(
                             payename: widget.payename,
                             receiveid: widget.receiveid,
+                            adid: widget.adid,
                           )));
                         },
                         child: Container(
@@ -182,7 +186,12 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 1),
-                  child: ListViews(),
+                  child: ListViews(
+                    name: widget.payename,
+                    uid: widget.receiveid,
+                    role: widget.role,
+                    adid: widget.adid,
+                  ),
                 )
               ],
             ),

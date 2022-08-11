@@ -19,9 +19,11 @@ class DetailsPage extends StatefulWidget {
   final String? uid;
   final String? locationname;
   final String? date;
+  final String? adname;
+  final String? adid;
 
 
-  const DetailsPage({Key? key, this.name, this.eid, this.uid, this.locationname, this.date}) : super(key: key);
+  const DetailsPage({Key? key, this.name, this.eid, this.uid, this.locationname, this.date, this.adname, this.adid}) : super(key: key);
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -58,6 +60,9 @@ class _DetailsPageState extends State<DetailsPage> {
                  onTap: (){
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectionWorkers(
                      evid: widget.eid,
+                     adname: widget.adname,
+                     payename: widget.adname,
+                     adid:widget.adid
                    )));
 
                 },

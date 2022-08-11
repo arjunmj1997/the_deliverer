@@ -173,7 +173,8 @@ class _LoginPageState extends State<LoginPage> {
                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AdminPage()));
+                                          builder: (context) => AdminPage(name: "Admin",
+                                          adid: "ad123id",)));
                                 } else {
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
@@ -205,6 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                         mob: value.data()!['mobile'],
                                                                         emial: value.data()!['email'],
                                                                         uid: value.data()!['uid'],
+                                                                        role: value.data()!['userrole'],
 
 
                                                                       ),

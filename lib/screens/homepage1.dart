@@ -26,9 +26,10 @@ class HomePage1 extends StatefulWidget {
   var address;
   final String? username;
   final String? password;
+  final String? role;
   var experience;
   final String? uid;
-   HomePage1({Key? key, this.name,  this.mob, this.username, this.password, this.experience, this.uid,this.stat,this.emial,this.address
+   HomePage1({Key? key, this.name,  this.mob, this.username, this.password, this.experience, this.uid,this.stat,this.emial,this.address, this.role
    }) : super(key: key);
 
   @override
@@ -252,6 +253,7 @@ left: 0,
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
                             payename: widget.name,
                             receiveid: widget.uid,
+                            role: widget.role,
                           )));
                         },
                         child: ResponsiveButton(

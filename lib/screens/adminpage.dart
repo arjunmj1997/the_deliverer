@@ -19,7 +19,9 @@ import 'package:the_deliverer/widgets/recatanglebutton.dart';
 class AdminPage extends StatefulWidget {
   final String? name;
   final String? uid;
-  const AdminPage({Key? key, this.name, this.uid}) : super(key: key);
+  final String? role;
+  final String? adid;
+  const AdminPage({Key? key, this.name, this.uid, this.role, this.adid}) : super(key: key);
 
   @override
   State<AdminPage> createState() => _AdminPageState();
@@ -113,7 +115,8 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
                  GestureDetector(
                    onTap: (){
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
-                       payename: name,
+                       payename: widget.name,
+                       adid: widget.adid,
                      )));
                    },
                      child: RectangularButton(text: "Payment",width: 200,hi: 30,)),
@@ -158,7 +161,10 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
         controller: _controller,
         children: [
 
-              ListPage(),
+              ListPage(
+                name: name,
+                adid: widget.adid,
+              ),
 
          WorkersPage(),
           RequestPage(),

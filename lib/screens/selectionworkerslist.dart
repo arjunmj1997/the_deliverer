@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:the_deliverer/screens/paymentworkers.dart';
+import 'package:the_deliverer/screens/personpayment.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/customcard.dart';
 
@@ -9,7 +10,9 @@ import '../widgets/recatanglebutton.dart';
 class SelectionWorkers extends StatefulWidget {
   final String? evid;
   final String? payename;
-  const SelectionWorkers({Key? key, this.evid, this.payename}) : super(key: key);
+  final String? adname;
+  final String? adid;
+  const SelectionWorkers({Key? key, this.evid, this.payename, this.adname, this.adid}) : super(key: key);
 
   @override
   _SelectionWorkersState createState() => _SelectionWorkersState();
@@ -52,9 +55,11 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
                           title: Text(snapshot.data!.docs[index]['name']),
                          trailing:GestureDetector(
                            onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
+                             Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
                                payename: widget.payename,
                                receiveid: snapshot.data!.docs[index]['uid'],
+                               receivename: snapshot.data!.docs[index]['name'],
+                               adid: widget.adid,
                              )));
                            },
                              child: RectangularButton(text:"Payment",hi:80,width:100))

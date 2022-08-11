@@ -27,9 +27,11 @@ class DetailsAdmin extends StatefulWidget {
   final String? radio;
   final String? uid;
   final String? asignid;
+  final String? adname;
+  final String? adid;
 
 
-  const DetailsAdmin({Key? key, this.evid, this.name, this.locationname, this.date, this.address, this.time, this.mobile, this.veg, this.check, this.email, this.radio, this.uid, this.asignid}) : super(key: key);
+  const DetailsAdmin({Key? key, this.evid, this.name, this.locationname, this.date, this.address, this.time, this.mobile, this.veg, this.check, this.email, this.radio, this.uid, this.asignid, this.adname, this.adid}) : super(key: key);
 
   @override
   _DetailsAdminState createState() => _DetailsAdminState();
@@ -64,6 +66,8 @@ class _DetailsAdminState extends State<DetailsAdmin> {
                        eid: widget.evid,
                        locationname: widget.locationname,
                        date: widget.date,
+                       adname: widget.adname,
+                       adid: widget.adid,
 
                      )));
                    },

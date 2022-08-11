@@ -9,7 +9,9 @@ import '../widgets/recatanglebutton.dart';
 import 'detailsadmin.dart';
 
 class ListPage extends StatefulWidget {
-  const ListPage({Key? key}) : super(key: key);
+  final String? name;
+  final String? adid;
+  const ListPage({Key? key, this.name, this.adid}) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -63,6 +65,9 @@ class _ListPageState extends State<ListPage> {
                           radio: snapshot.data!.docs[index]['vegornonvegstatus'],
                           uid: snapshot.data!.docs[index]['managerid'],
                           asignid: snapshot.data!.docs[index]['assignid'],
+                            adname: widget.name,
+                            adid: widget.adid,
+
 
 
                           )));

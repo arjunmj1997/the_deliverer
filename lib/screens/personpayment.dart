@@ -6,8 +6,10 @@ class PersonPay extends StatefulWidget {
   final String? payename;
   final String? payid;
   final String? receiveid;
+  final String? receivename;
+  final String? adid;
 
-  const PersonPay({Key? key, this.payename, this.payid, this.receiveid}) : super(key: key);
+  const PersonPay({Key? key, this.payename, this.payid, this.receiveid, this.receivename, this.adid}) : super(key: key);
 
   @override
   _PersonPayState createState() => _PersonPayState();
@@ -19,7 +21,7 @@ class _PersonPayState extends State<PersonPay> {
   TextEditingController accountnocontroller= TextEditingController();
   TextEditingController datecontroller= TextEditingController();
   TextEditingController amtcontroller= TextEditingController();
-  var recid;
+  late final String? recid;
   @override
   void initState() {
     recid=DateTime.now().toString();
@@ -52,31 +54,16 @@ class _PersonPayState extends State<PersonPay> {
                 key: paykey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      keyboardType: TextInputType.text,
-                      controller: namecontroller1,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.blue),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.red),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          hintText: "Enter name",
-                          prefixIcon: Icon(Icons.account_circle_sharp),
-                          hintStyle: TextStyle(color: Colors.black54),
-                        suffixIcon:IconButton(onPressed:(){}, icon:Icon(Icons.search))
-                      ),
 
-                    ),
                     SizedBox(
                       height: 15,
                     ),
                     TextFormField(
+                      validator: (value){
+                        if(value!.length<2){
+                          return "enter valid";
+                        }
+                      },
                       keyboardType: TextInputType.text,
                       controller: accountnocontroller,
                       decoration: InputDecoration(
@@ -102,6 +89,11 @@ class _PersonPayState extends State<PersonPay> {
                     ),
 
                     TextFormField(
+                      validator: (value){
+                        if(value!.length<2){
+                          return "enter valid";
+                        }
+                      },
                       keyboardType: TextInputType.text,
                       controller: amtcontroller,
                       decoration: InputDecoration(
@@ -126,6 +118,11 @@ class _PersonPayState extends State<PersonPay> {
                       height: 10,
                     ),
                     TextFormField(
+                      validator: (value){
+                        if(value!.length<2){
+                          return "enter valid";
+                        }
+                      },
                       keyboardType: TextInputType.text,
                       controller: datecontroller,
                       decoration: InputDecoration(
@@ -155,23 +152,28 @@ class _PersonPayState extends State<PersonPay> {
               ),
 
             GestureDetector(
-              onTap: (){
-      FirebaseFirestore.instance
-          .collection('receivingpay')
-          .doc(recid)
-          .set({
+
+        onTap: (){
+          if(paykey.currentState!.validate())
+        FirebaseFirestore.instance
+            .collection('receivingpay')
+            .doc(recid)
+            .set({
         'payid': recid,
         'payee': widget.payename,
         'payeeid': widget.payid,
-        'recname': namecontroller1,
+        'recname': widget.receivename,
         'recieveid': widget.receiveid,
-        'amount': amtcontroller,
-        'date': datecontroller,
+        'amount': amtcontroller.text,
+        'date': datecontroller.text,
+        'adid': datecontroller.text,
         'createdAt': DateTime.now(),
-
+          'adid':widget.adid,
 
         'status': 1,
-      } );},
+        } ).then((value) => print('saved'));
+        },
+
                 child: ResponsiveButton(text:"pay",)
     )
             ]
