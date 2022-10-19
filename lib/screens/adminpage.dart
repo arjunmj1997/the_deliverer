@@ -13,6 +13,7 @@ import 'package:the_deliverer/screens/register.dart';
 import 'package:the_deliverer/screens/registerfunction.dart';
 import 'package:the_deliverer/screens/registermanager.dart';
 import 'package:the_deliverer/screens/requestspage.dart';
+import 'package:the_deliverer/screens/searchpage.dart';
 import 'package:the_deliverer/screens/workerspage.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/recatanglebutton.dart';
@@ -29,8 +30,9 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixin {
   late TabController _controller;
-  var name="Arjun";
-
+  var name="Admin";
+  var regkey= GlobalKey<FormState>();
+  TextEditingController datecontroller= TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -73,7 +75,7 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                RectangularButton(text: "EDIT",width:100,hi: 30,),
+               // RectangularButton(text: "EDIT",width:100,hi: 30,),
                 SizedBox(
                   width: 10,
                 ),
@@ -90,7 +92,9 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
 
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterFunction()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterFunction(
+                  name: name,
+                )));
               },
                 child : RectangularButton(text: "Register Function",width: 200,hi: 30,)),
                  SizedBox(
@@ -116,7 +120,9 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
                    onTap: (){
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
                        payename: widget.name,
-                       adid: widget.adid,
+                       receiveid: 'admin123',
+                       adname: widget.name
+
                      )));
                    },
                      child: RectangularButton(text: "Payment",width: 200,hi: 30,)),
@@ -130,7 +136,55 @@ class _AdminPageState extends State<AdminPage>with SingleTickerProviderStateMixi
         backgroundColor:Color(0xff094190),
         toolbarHeight: 80,
         actions: [
-          IconButton(onPressed:(){}, icon:Icon(Icons.search)),
+          SizedBox(
+            width: 200,
+            height: 200,
+            child: Form(
+              key: regkey,
+              child: TextFormField(
+
+                validator: (value){
+
+                  if(value==null|| value.isEmpty){
+                    return "field should not empty";
+                  }
+                  if(value.length<2){
+                    return "enter valid";
+                  }
+                },
+                keyboardType: TextInputType.text,
+                controller: datecontroller,
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.red),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.red),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    hintText: "Enter Date",
+                   // prefixIcon: Icon(Icons.account_circle_sharp),
+                    hintStyle: TextStyle(color: Colors.black54,fontSize: 15,fontWeight: FontWeight.bold),
+                    suffixIcon:IconButton(
+                        onPressed:(){
+                          if(regkey.currentState!.validate())
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchPage(
+                                    date: datecontroller.text,)));
+                        },
+                        icon:Icon(Icons.search)
+                    )
+                ),
+
+              ),
+            ),
+          ),
+          //IconButton(onPressed:(){}, icon:Icon(Icons.search)),
 
         ],
         title:AppHeadingText(text: "Welcome Arjun",size: 15,color: Colors.white,),

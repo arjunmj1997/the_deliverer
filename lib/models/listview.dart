@@ -57,7 +57,7 @@ class _ListViewsState extends State<ListViews> {
 
                   ),
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('receivingpay').where('status', whereIn: [1]).where('recieveid',isEqualTo: widget.uid).snapshots(),
+                      stream: FirebaseFirestore.instance.collection('receivingpay').where('recieveid',isEqualTo:widget.uid,).snapshots(),
                       builder: (context, snapshot) {
                         if(!snapshot.hasData){
                           return Center(
@@ -74,37 +74,40 @@ class _ListViewsState extends State<ListViews> {
                         else{
 
                           return
-                            (widget.name=="Admin")?
-                            ListView.builder(
+                          (widget.name=="Admin")?
+                             ListView.builder(
 
-                              scrollDirection: Axis.vertical,
-                              itemCount:snapshot.data!.docs.length,
-                              itemBuilder: (context, int index) {
-                                return Padding(
-                                    padding: const EdgeInsets.only(top: 1),
+                               scrollDirection: Axis.vertical,
+                               itemCount:snapshot.data!.docs.length,
+                               itemBuilder: (context, int index) {
+                                 return
+                                   Padding(
+                                     padding: const EdgeInsets.only(top: 1),
 
-                                    child: AppContainer(
-                                      child: ListTile(
+                                     child: AppContainer(
+                                       child: ListTile(
 
-                                        title: AppHeadingText(
-                                            text: " paid ${snapshot
-                                                .data!
-                                                .docs[index]['amount']
-                                                .toString()} to ${snapshot
-                                                .data!
-                                                .docs[index]['recname']
-                                                .toString()}"),
-                                        subtitle: AppHeadingText(
-                                          text: snapshot.data!
-                                              .docs.length.toString(),),
-                                      ),
+                                         title: AppHeadingText(
+                                             text: " recieved ${snapshot
+                                                 .data!
+                                                 .docs[index]['amount']
+                                                 .toString()} from ${snapshot
+                                                 .data!
+                                                 .docs[index]['payee']
+                                                 .toString()}"),
+                                         subtitle: AppHeadingText(
+                                           text: snapshot.data!
+                                               .docs[index]['date'],),
+                                       ),
 
-                                    )
-                                );
+                                     )
+                                 );
 
 
-                              }
-                          ):
+
+
+                               }
+                           ):
                             (widget.role=='manager')?
                             ListView.builder(
 
@@ -127,7 +130,7 @@ class _ListViewsState extends State<ListViews> {
                                                   .toString()}"),
                                           subtitle: AppHeadingText(
                                             text: snapshot.data!
-                                                .docs.length.toString(),),
+                                            .docs[index]['date'],),
                                         ),
 
                                       )
@@ -140,27 +143,53 @@ class _ListViewsState extends State<ListViews> {
                                 scrollDirection: Axis.vertical,
                                 itemCount:snapshot.data!.docs.length,
                                 itemBuilder: (context, int index) {
-                                  return Padding(
-                                      padding: const EdgeInsets.only(top: 1),
+                                  return
+                                    (snapshot.data!.docs[index]['payeeid']==widget.uid)?
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 1),
 
-                                      child: AppContainer(
-                                        child: ListTile(
+                                          child: AppContainer(
+                                            child: ListTile(
 
-                                          title: AppHeadingText(
-                                              text: " received ${snapshot
-                                                  .data!
-                                                  .docs[index]['amount']
-                                                  .toString()} from ${snapshot
-                                                  .data!
-                                                  .docs[index]['payee']
-                                                  .toString()}"),
-                                          subtitle: AppHeadingText(
-                                            text: snapshot.data!
-                                                .docs.length.toString(),),
-                                        ),
+                                              title: AppHeadingText(
+                                                  text: " paid ${snapshot
+                                                      .data!
+                                                      .docs[index]['amount']
+                                                      .toString()} to ${snapshot
+                                                      .data!
+                                                      .docs[index]['recname']
+                                                      .toString()}"),
+                                              subtitle: AppHeadingText(
+                                                text: snapshot.data!
+                                                    .docs[index]['date'],),
+                                            ),
 
-                                      )
-                                  );
+                                          )
+                                      ):                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 1),
+
+                                        child: AppContainer(
+                                          child: ListTile(
+
+                                            title: AppHeadingText(
+                                                text: " recieved ${snapshot
+                                                    .data!
+                                                    .docs[index]['amount']
+                                                    .toString()} from ${snapshot
+                                                    .data!
+                                                    .docs[index]['payee']
+                                                    .toString()}"),
+                                            subtitle: AppHeadingText(
+                                              text: snapshot.data!
+                                                  .docs[index]['date'],),
+                                          ),
+
+                                        )
+                                    );
+
+
 
 
                                 }

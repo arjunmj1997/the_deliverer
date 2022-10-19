@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:the_deliverer/widgets/appbutton.dart';
 import 'package:the_deliverer/widgets/recatanglebutton.dart';
+
+import '../validation.dart';
 class PersonPay extends StatefulWidget {
   final String? payename;
   final String? payid;
@@ -59,11 +62,17 @@ class _PersonPayState extends State<PersonPay> {
                       height: 15,
                     ),
                     TextFormField(
-                      validator: (value){
-                        if(value!.length<2){
-                          return "enter valid";
+                      validator: (value) {
+                        if(value==null || value.isEmpty){
+                          return "Enter account number";
+                        }
+                        if (value.length == 14) {
+                          return null;
+                        } else {
+                          return "invalid";
                         }
                       },
+
                       keyboardType: TextInputType.text,
                       controller: accountnocontroller,
                       decoration: InputDecoration(
@@ -90,11 +99,14 @@ class _PersonPayState extends State<PersonPay> {
 
                     TextFormField(
                       validator: (value){
-                        if(value!.length<2){
+                        if(value==null || value.isEmpty){
+                          return "Enter Amount";
+                        }
+                        if(value.length<2){
                           return "enter valid";
                         }
                       },
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.phone,
                       controller: amtcontroller,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -119,7 +131,10 @@ class _PersonPayState extends State<PersonPay> {
                     ),
                     TextFormField(
                       validator: (value){
-                        if(value!.length<2){
+                        if(value==null || value.isEmpty){
+                          return "Enter date ";
+                        }
+                        if(value.length<2){
                           return "enter valid";
                         }
                       },
@@ -171,8 +186,17 @@ class _PersonPayState extends State<PersonPay> {
           'adid':widget.adid,
 
         'status': 1,
-        } ).then((value) => print('saved'));
+        } ).then((value) => Fluttertoast.showToast(
+          msg: 'Payment successful',
+          toastLength: Toast.LENGTH_LONG,
+          fontSize: 15,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Color(0XFF67949D),
+          textColor: Colors.white,
+        ).then((value) => Navigator.pop(context)),
+          ).then((value) => print('saved'));
         },
+
 
                 child: ResponsiveButton(text:"pay",)
     )

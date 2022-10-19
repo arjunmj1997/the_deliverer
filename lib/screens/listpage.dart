@@ -34,7 +34,7 @@ class _ListPageState extends State<ListPage> {
         // borderRadius: BorderRadius.circular(60)
       ),
       child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("events").snapshots(),
+          stream: FirebaseFirestore.instance.collection("events").where('status',isEqualTo: 1,).snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -65,24 +65,58 @@ class _ListPageState extends State<ListPage> {
                           radio: snapshot.data!.docs[index]['vegornonvegstatus'],
                           uid: snapshot.data!.docs[index]['managerid'],
                           asignid: snapshot.data!.docs[index]['assignid'],
+                          managername: snapshot.data!.docs[index]['managername'],
+                          eventstatus: snapshot.data!.docs[index]['status'],
+                          nuberworkers: snapshot.data!.docs[index]['numberworkers'],
+                          //nuberworkers: snapshot.data!.docs[index]['numberworkers'],
                             adname: widget.name,
-                            adid: widget.adid,
+                            adid: 'admin123'
 
 
 
                           )));
                           },
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Color(0xff094190),
+                        child: Container(
+                          height:120,
+                          width: MediaQuery.of(context).size.width,
+                          decoration:BoxDecoration(
+                            color: Color(0xffe7e8d1),
                           ),
-                          title: AppHeadingText(
-                            text: snapshot.data!.docs[index]['locationname']
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Color(0xff094190),
+                                ),
+                                title: AppHeadingText(
+                                  text: snapshot.data!.docs[index]['locationname']
 
+                                ),
+                                subtitle: AppHeadingText(text:snapshot.data!.docs[index]['date'] ,size: 20,),
+                                trailing: AppHeadingText(text:snapshot.data!.docs[index]['regname'] ,size: 20,),
+                               ),
+                              Row(
+                                children: [
+
+                                  GestureDetector(
+                                      onTap:(){
+                                        FirebaseFirestore.instance
+                                            .collection('events')
+                                            .doc(snapshot.data!.docs[index]
+                                        ['event_id'])
+                                            .update({
+                                          'status': 2,
+                                        });
+                                      },
+                                      child: RectangularButton(text: "DELETE",width: MediaQuery.of(context).size.width,hi:40,)
+                                  ),
+
+
+                                ],
+                              )
+                            ],
                           ),
-                          subtitle: AppHeadingText(text:snapshot.data!.docs[index]['date'] ,size: 20,),
-                          trailing: AppHeadingText(text:snapshot.data!.docs[index]['regname'] ,size: 20,),
-                         )
+                        )
 
                         ),
                       );

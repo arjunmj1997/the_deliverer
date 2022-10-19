@@ -8,9 +8,10 @@ import '../widgets/appheadingtext.dart';
 class UserList extends StatefulWidget {
   final String? payename;
   final String? receiveid;
-  final String? adid;
 
-  UserList({Key? key, this.payename, this.receiveid, this.adid}) : super(key: key);
+
+
+  UserList({Key? key, this.payename, this.receiveid, }) : super(key: key);
 
   @override
   _UserListState createState() => _UserListState();
@@ -53,6 +54,10 @@ class _UserListState extends State<UserList> {
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
                               receiveid: snapshot.data!.docs[index]['uid'],
+                              receivename: snapshot.data!.docs[index]['name'],
+                              payename: widget.payename,
+                              payid: widget.receiveid,
+
                             )));
                           },
                           child: AppContainer(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:the_deliverer/models/containerstyle.dart';
 import 'package:the_deliverer/models/listview.dart';
 import 'package:the_deliverer/screens/personpayment.dart';
+import 'package:the_deliverer/screens/sendhistory.dart';
 import 'package:the_deliverer/screens/userslist.dart';
 import 'package:the_deliverer/widgets/appheadingtext.dart';
 import 'package:the_deliverer/widgets/customdrawer.dart';
@@ -15,7 +16,9 @@ class PaymentWorkers extends StatefulWidget {
   final String? receiveid;
   final String? role;
   final String? adid;
-  const PaymentWorkers({Key? key, this.payename, this.receiveid, this.role, this.adid}) : super(key: key);
+  final String? mid;
+  final String? adname;
+  const PaymentWorkers({Key? key, this.payename, this.receiveid, this.role, this.adid, this.mid, this.adname}) : super(key: key);
 
   @override
   _PaymentWorkersState createState() => _PaymentWorkersState();
@@ -59,7 +62,7 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>UserList(
                             payename: widget.payename,
                             receiveid: widget.receiveid,
-                            adid: widget.adid,
+
                           )));
                         },
                         child: Container(
@@ -98,69 +101,49 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        height: 200,
-                        width: 300,
-                        decoration: BoxDecoration(
 
-                            gradient: LinearGradient(colors: [
-                              // Color(0xff9542f5),
-
-                              Color(0xff0d87d4),
-                              Color(0xff42b0f5),
-
-                            ]),
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/moneypay1.jpg"),
-                                fit: BoxFit.fill
-                            )
-                        ),
-                        child:Align(
-                          alignment: Alignment.bottomLeft,
-                          child: ListTile(
-                            title: Padding(
-                              padding: const EdgeInsets.only(left: 8.0,),
-                              child: AppNormalText(text:"TO",size: 30,color:Colors.black,fw: FontWeight.normal,),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: AppNormalText(text:"Self",size: 26,color:Colors.black,fw: FontWeight.normal,),
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        height: 200,
-                        width: 300,
-                        decoration:BoxDecoration(
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
+                            payename: widget.payename,
+                            payid: widget.receiveid,
+                            receiveid: 'admin123',
+                            receivename: 'Admin',
 
-                            gradient: LinearGradient(colors: [
-                              // Color(0xff9542f5),
+                          )));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 300,
+                          decoration:BoxDecoration(
 
-                              Color(0xff0d87d4),
-                              Color(0xff42b0f5),
+                              gradient: LinearGradient(colors: [
+                                // Color(0xff9542f5),
 
-                            ]),
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/moneypay2.jpg"),
-                                fit: BoxFit.fill
-                            )
-                        ),
-                        child:  Align(
-                          alignment: Alignment.bottomLeft,
-                          child: ListTile(
-                            title: Padding(
-                              padding: const EdgeInsets.only(left: 8.0,),
-                              child: AppNormalText(text:"TO",size: 30,color:Colors.black,fw: FontWeight.normal,),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: AppNormalText(text:"Company",size: 26,color:Colors.black,fw: FontWeight.normal,),
+                                Color(0xff0d87d4),
+                                Color(0xff42b0f5),
+
+                              ]),
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/moneypay2.jpg"),
+                                  fit: BoxFit.fill
+                              )
+                          ),
+                          child:  Align(
+                            alignment: Alignment.bottomLeft,
+                            child: ListTile(
+                              title: Padding(
+                                padding: const EdgeInsets.only(left: 8.0,),
+                                child: AppNormalText(text:"TO",size: 30,color:Colors.black,fw: FontWeight.normal,),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: AppNormalText(text:"Company",size: 26,color:Colors.black,fw: FontWeight.normal,),
+                              ),
                             ),
                           ),
                         ),
@@ -179,7 +162,24 @@ class _PaymentWorkersState extends State<PaymentWorkers> {
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(top:10,left: 8),
-                      child: AppHeadingText(text: "Transactions", ),
+                      child: Row(
+                        children: [
+                          AppHeadingText(text: "Recieve History", ),
+                          SizedBox(width: 15,),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SendHistory(
+                                        name: widget.payename,
+                                        uid: widget.receiveid,
+                                        role: widget.role,
+                                      )));
+                            },
+                              child: AppHeadingText(text: "Send History", )),
+                        ],
+                      ),
                     )),
                 SizedBox(
                   height: 10,

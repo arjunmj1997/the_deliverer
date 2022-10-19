@@ -21,9 +21,11 @@ class DetailsPage extends StatefulWidget {
   final String? date;
   final String? adname;
   final String? adid;
+  final String? role;
+  var eventstatus;
 
 
-  const DetailsPage({Key? key, this.name, this.eid, this.uid, this.locationname, this.date, this.adname, this.adid}) : super(key: key);
+   DetailsPage({Key? key, this.name, this.eid, this.uid, this.locationname, this.date, this.adname, this.adid, this.eventstatus, this.role}) : super(key: key);
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -44,34 +46,24 @@ class _DetailsPageState extends State<DetailsPage> {
       bottomNavigationBar: Row(
         //mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          RectangularButton(text: "ADD",width:MediaQuery.of(context).size.width * 0.25,size:20,txtcolor: Colors.white,),
-          GestureDetector(
-              onTap: (){
-                //Navigator.push(context, MaterialPageRoute(builder: (context)=>Payment()));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left:2,right: 1),
-                child: RectangularButton(text: "PAYMENT",width:MediaQuery.of(context).size.width * 0.25,size:20,txtcolor: Colors.white,),
-              )
-          ),
+
+
           Padding(
             padding: const EdgeInsets.only(right:1),
               child: GestureDetector(
                  onTap: (){
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectionWorkers(
                      evid: widget.eid,
-                     adname: widget.adname,
                      payename: widget.adname,
-                     adid:widget.adid
+                     adid:'admin123',
+                     role: widget.role,
+                     adname: widget.adname,
                    )));
 
                 },
-                  child: RectangularButton(text: "View Suppliers",width:MediaQuery.of(context).size.width * 0.23,size:20,txtcolor: Colors.white,)),
+                  child: RectangularButton(text: "View Suppliers",width:MediaQuery.of(context).size.width*0.99,size:20,txtcolor: Colors.white,)),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right:1),
-            child: RectangularButton(text: "DISABLE",width:MediaQuery.of(context).size.width * 0.25,size:20,txtcolor: Colors.white,),
-          ),
+
         ],
       ),
 
@@ -84,8 +76,9 @@ class _DetailsPageState extends State<DetailsPage> {
         ),
       ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+
        child: StreamBuilder<QuerySnapshot>(
            stream: FirebaseFirestore.instance
                .collection('user')
@@ -138,8 +131,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                 'date':widget.date,
                                 'manageruid':null,
                                 'managername':null,
-
                                 'status': 1,
+                                'eventstatus': widget.eventstatus,
 
                               }).then((value) => FirebaseFirestore.instance
                                   .collection('user')

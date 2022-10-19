@@ -44,7 +44,13 @@ class _WorkersPageState extends State<WorkersPage> {
     padding: const EdgeInsets.only(top: 1),
     child: GestureDetector(
     onTap: (){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsWorkers()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsWorkers(
+      name: snapshot.data!.docs[index]['name'],
+      mob: snapshot.data!.docs[index]['mobile'],
+      uid: snapshot.data!.docs[index]['uid'],
+      emial: snapshot.data!.docs[index]['email'],
+      address: snapshot.data!.docs[index]['address'],
+    )));
     },
     child: AppContainer(
 

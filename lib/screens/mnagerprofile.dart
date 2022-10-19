@@ -6,9 +6,13 @@ import 'package:the_deliverer/screens/confirmedpage.dart';
 import 'package:the_deliverer/screens/detailsmanager.dart';
 import 'package:the_deliverer/screens/detailspage.dart';
 import 'package:the_deliverer/screens/editmanagerprofile.dart';
+import 'package:the_deliverer/screens/paymentworkers.dart';
 import 'package:the_deliverer/screens/pendingpage.dart';
 import 'package:the_deliverer/screens/register.dart';
+import 'package:the_deliverer/screens/registerfunction.dart';
 import 'package:the_deliverer/widgets/appbutton.dart';
+import 'package:the_deliverer/widgets/appnormaltext.dart';
+import 'package:the_deliverer/widgets/appsubheadinhtext.dart';
 import 'package:the_deliverer/widgets/recatanglebutton.dart';
 
 import '../models/appcontainer.dart';
@@ -24,7 +28,8 @@ class ManagerProfile extends StatefulWidget {
   final String? username;
   final String? password;
   final String? experience;
-  const ManagerProfile({Key? key, this.uid, this.name, this.mob, this.emaill, this.stat, this.address, this.username, this.password, this.experience, }) : super(key: key);
+  final String? role;
+  const ManagerProfile({Key? key, this.uid, this.name, this.mob, this.emaill, this.stat, this.address, this.username, this.password, this.experience, this.role, }) : super(key: key);
 
   @override
   _ManagerProfileState createState() => _ManagerProfileState();
@@ -68,9 +73,18 @@ class _ManagerProfileState extends State<ManagerProfile>
                   ],
                 ),
               ),
-              AppHeadingText(text:"Name: ${widget.name.toString()}"),
-              AppHeadingText(text:"Mobile: ${widget.mob.toString()}"),
-              AppHeadingText(text:"Email: ${widget.emaill.toString()}"),
+              Padding(
+                padding: const EdgeInsets.only(right:110),
+                child: AppHeadingText(text:"Name: ${widget.name.toString()}",size: 25,),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right:15),
+                child: AppHeadingText(text:"Mobile: ${widget.mob.toString()}",size: 25,),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 18),
+                child: AppHeadingText(text:"Email: ${widget.emaill.toString()}",size: 25,),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -81,7 +95,35 @@ class _ManagerProfileState extends State<ManagerProfile>
                   )
 
                   ) );},
-                  child: RectangularButton(text: "EDIT",width: 100,hi: 30,))
+                  child: RectangularButton(text: "EDIT",width: 100,hi: 30,)),
+              SizedBox(
+                height: 10,
+              ),
+
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentWorkers(
+                    receiveid: widget.uid,
+                    payename: widget.name,
+                    role: widget.role,
+                  )
+
+                  ) );},
+                  child: RectangularButton(text: "Payment",width: 100,hi: 30,)),
+              SizedBox(
+                height: 10,
+              ),
+
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterFunction(
+                    uid: widget.uid,
+                    name: widget.name,
+
+                  )
+
+                  ) );},
+                  child: RectangularButton(text: "Register Events",width: 100,hi: 30,)),
 
 
 
@@ -147,36 +189,53 @@ class _ManagerProfileState extends State<ManagerProfile>
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 1),
-                              child: GestureDetector(
-                                  onTap: () {},
-                                  child: ListTile(
-                                    leading: IconButton(
-                                      icon: const Icon(Icons.account_box),
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection('events')
-                                            .doc(snapshot.data!.docs[index]
+                            return Container(
+                              height:120,
+                              width: MediaQuery.of(context).size.width,
+                              decoration:BoxDecoration(
+                                color: Color(0xffe7e8d1),
+                              ),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: AppHeadingText(text: snapshot.data!.docs[index]['locationname'],),
+                                    subtitle: AppHeadingText(text: snapshot.data!.docs[index]['date'],),
+                                    trailing: AppSubHeadingText(text: snapshot.data!.docs[index]['regname'],),
+
+                                  ),
+                                  Row(
+                                    children: [
+
+                                            GestureDetector(
+                                              onTap:(){
+                                                FirebaseFirestore.instance
+                                                    .collection('events')
+                                                    .doc(snapshot.data!.docs[index]
                                                 ['event_id'])
-                                            .update({
-                                          'managerstatus': 1,
-                                        });
-                                      },
-                                    ),
-                                    title: AppHeadingText(
-                                        text: snapshot.data!.docs[index]
-                                            ['locationname']),
-                                    subtitle: AppHeadingText(
-                                      text: snapshot.data!.docs[index]['date'],
-                                      size: 20,
-                                    ),
-                                    trailing: AppHeadingText(
-                                      text: snapshot.data!.docs[index]
-                                          ['regname'],
-                                      size: 20,
-                                    ),
-                                  )),
+                                                    .update({
+                                                  'managerstatus': 1,
+                                                });
+                                              },
+                                                child: RectangularButton(text: "Confirm",width: MediaQuery.of(context).size.width*0.50,hi:40,)),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            GestureDetector(
+                                              onTap:(){
+                                                FirebaseFirestore.instance
+                                                    .collection('events')
+                                                    .doc(snapshot.data!.docs[index]
+                                                ['event_id'])
+                                                    .update({
+                                                  'managerstatus': 2,
+                                                });
+                                              },
+                                                child: RectangularButton(text: "Delete",width: MediaQuery.of(context).size.width*0.48,hi:40,)),
+
+                                    ],
+                                  )
+                                ],
+                              ),
                             );
                           });
                     }
@@ -228,7 +287,7 @@ class _ManagerProfileState extends State<ManagerProfile>
                 stream: FirebaseFirestore.instance
                     .collection("events")
                     .where('managerid', isEqualTo: widget.uid)
-                    .where('managerstatus', isEqualTo: 1)
+                    .where('managerstatus', isEqualTo: 1).where('status',isEqualTo: 1)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -274,6 +333,7 @@ class _ManagerProfileState extends State<ManagerProfile>
                                                 radio:
                                                     snapshot.data!.docs[index]
                                                         ['vegornonvegstatus'],
+                                            role: widget.role,
                                               )));
                                 },
                                 child: ListTile(
@@ -294,53 +354,54 @@ class _ManagerProfileState extends State<ManagerProfile>
                   }
                 }),
 
-            Text("hello"),
 
-            // StreamBuilder<QuerySnapshot>(
-            //     stream: FirebaseFirestore.instance.collection("events").where('registeredby',isEqualTo:widget.uid).snapshots(),
-            //     builder: (context, snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
-            //         return Center(
-            //           child: Text("No data found"),
-            //         );
-            //       } else {
-            //         return ListView.builder(
-            //             scrollDirection: Axis.vertical,
-            //             itemCount: snapshot.data!.docs.length,
-            //             itemBuilder: (context, int index) {
-            //               return Padding(
-            //                 padding: const EdgeInsets.only(top: 1),
-            //                 child: GestureDetector(
-            //                     onTap: () {
-            //                       Navigator.push(
-            //                           context,
-            //                           MaterialPageRoute(
-            //                               builder: (context) => DetailsPage()));
-            //                     },
-            //                     child: ListTile(
-            //                       leading: CircleAvatar(
-            //                         backgroundColor: Color(0xff094190),
-            //                       ),
-            //                       title: AppHeadingText(
-            //                           text: snapshot.data!.docs[index]['locationname']
-            //
-            //                       ),
-            //                       subtitle: AppHeadingText(text:snapshot.data!.docs[index]['date'] ,size: 20,),
-            //                       trailing: AppHeadingText(text:snapshot.data!.docs[index]['regname'] ,size: 20,),
-            //                     )
-            //
-            //                 ),
-            //               );
-            //
-            //             });
-            //       }
-            //     }),
-          ],
-        ));
+
+           StreamBuilder<QuerySnapshot>(
+           stream: FirebaseFirestore.instance.collection("events").where('registeredby',isEqualTo:widget.uid).snapshots(),
+                 builder: (context, snapshot) {
+                 if (!snapshot.hasData) {
+                   return Center(
+              child: CircularProgressIndicator(),
+            );
+         } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text("No data found"),
+             );
+           } else {
+             return ListView.builder(
+                scrollDirection: Axis.vertical,
+                 itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, int index) {
+                   return Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                   child: GestureDetector(
+                         onTap: () {
+                          Navigator.push(
+                              context,
+                             MaterialPageRoute(
+                                   builder: (context) => DetailsPage()));
+                        },
+                        child: ListTile(
+    leading: CircleAvatar(
+                             backgroundColor: Color(0xff094190),
+                         ),
+                          title: AppHeadingText(
+                              text: snapshot.data!.docs[index]['locationname']
+
+                          ),
+                         subtitle: AppHeadingText(text:snapshot.data!.docs[index]['date'] ,size: 20,),
+                        trailing: AppHeadingText(text:snapshot.data!.docs[index]['regname'] ,size: 20,),
+                       )
+
+                    ),
+                  );
+
+                 });
+           }
+        }),
+    ],
+    ));
+    }
   }
   void showalert(BuildContext context)  {
     showDialog(
@@ -361,4 +422,4 @@ class _ManagerProfileState extends State<ManagerProfile>
         });
   }
 
-}
+

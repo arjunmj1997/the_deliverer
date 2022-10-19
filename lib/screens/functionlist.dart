@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:the_deliverer/models/appbar.dart';
 import 'package:the_deliverer/models/containerstyle.dart';
 import 'package:the_deliverer/screens/confirmedpage.dart';
+import 'package:the_deliverer/screens/detailsadmin.dart';
+import 'package:the_deliverer/screens/detailsevent.dart';
 import 'package:the_deliverer/screens/detailspage.dart';
 import 'package:the_deliverer/screens/pendingpage.dart';
 import 'package:the_deliverer/widgets/recatanglebutton.dart';
 
 import '../models/appcontainer.dart';
 import '../widgets/appheadingtext.dart';
+import '../widgets/appsubheadinhtext.dart';
 class FunctionList extends StatefulWidget {
   final String? uid;
   const FunctionList({Key? key, this.uid}) : super(key: key);
@@ -64,7 +67,7 @@ class _FunctionListState extends State<FunctionList> with SingleTickerProviderSt
                // borderRadius: BorderRadius.circular(60)
             ),
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection("assignments").where('uid',isEqualTo:widget.uid ).where('status',isEqualTo: 1).snapshots(),
+              stream: FirebaseFirestore.instance.collection("assignments").where('uid',isEqualTo:widget.uid ).where('status',isEqualTo: 1).where('eventstatus',isEqualTo: 1).snapshots(),
               builder: (context,snapshot){
 
                 if(!snapshot.hasData){
@@ -223,17 +226,24 @@ class _FunctionListState extends State<FunctionList> with SingleTickerProviderSt
                 return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context,int index){
-                      return ListTile(
-                        leading: Text(snapshot.data!.docs[index]['date']),
-                        title: Text(snapshot.data!.docs[index]['customername']),
-                        subtitle:Text(snapshot.data!.docs[index]['locationname']),
-                        trailing: RectangularButton(text: "Confirm",width: 120,hi: 50,),
+                      return GestureDetector(
+                        onTap: (){
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsEvent(
+                           evid: snapshot.data!.docs[index]['event_id'],
+                         )));
+                        },
+                        child: ListTile(
+
+                          title: AppHeadingText(text:snapshot.data!.docs[index]['locationname']),
+                          subtitle: AppSubHeadingText(text:snapshot.data!.docs[index]['date']),
 
 
 
 
 
 
+
+                        ),
                       );
 
 
@@ -265,10 +275,10 @@ class _FunctionListState extends State<FunctionList> with SingleTickerProviderSt
                           padding: const EdgeInsets.only(top: 1),
                           child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailsPage()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => DetailsPage()));
                               },
                               child: ListTile(
                                 leading: CircleAvatar(

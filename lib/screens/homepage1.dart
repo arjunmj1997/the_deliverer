@@ -78,9 +78,18 @@ class _HomePage1State extends State<HomePage1> {
                 ],
               ),
             ),
-     AppHeadingText(text:"Name: ${widget.name.toString()}"),
-     AppHeadingText(text:"Mobile: ${widget.mob.toString()}"),
-     AppHeadingText(text:"Email: ${widget.emial.toString()}"),
+     Padding(
+       padding: const EdgeInsets.only(right: 110),
+       child: AppHeadingText(text:"Name: ${widget.name.toString()}",color: Colors.blue,size: 25,),
+     ),
+     Padding(
+       padding: const EdgeInsets.only(right: 26),
+       child: AppHeadingText(text:"Mobile: ${widget.mob.toString()}",color: Colors.blue,size: 25,),
+     ),
+     Padding(
+       padding: const EdgeInsets.only(left:15),
+       child: AppHeadingText(text:"Email: ${widget.emial.toString()}",color: Colors.blue,size:25,),
+     ),
             SizedBox(
               height: 10,
             ),
@@ -254,6 +263,7 @@ left: 0,
                             payename: widget.name,
                             receiveid: widget.uid,
                             role: widget.role,
+
                           )));
                         },
                         child: ResponsiveButton(

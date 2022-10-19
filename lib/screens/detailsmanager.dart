@@ -26,9 +26,10 @@ class DetailsManager extends StatefulWidget {
   final String? email;
   final String? radio;
   final String? uid;
+  final String? role;
 
 
-  const DetailsManager({Key? key, this.evid, this.name, this.locationname, this.date, this.address, this.time, this.mobile, this.veg, this.check, this.email, this.radio, this.uid}) : super(key: key);
+  const DetailsManager({Key? key, this.evid, this.name, this.locationname, this.date, this.address, this.time, this.mobile, this.veg, this.check, this.email, this.radio, this.uid, this.role}) : super(key: key);
 
   @override
   _DetailsManagerState createState() => _DetailsManagerState();
@@ -53,10 +54,11 @@ class _DetailsManagerState extends State<DetailsManager> {
                       eid: widget.evid,
                       locationname: widget.locationname,
                       date: widget.date,
+                      role: widget.role,
 
                     )));
                   },
-                  child: RectangularButton(text: "WORKERS",width:MediaQuery.of(context).size.width * 0.48,size:20,txtcolor: Colors.white,)),
+                  child: RectangularButton(text: "WORKERS",width:MediaQuery.of(context).size.width * 0.98,size:20,txtcolor: Colors.white,)),
             ),
 
           ],
@@ -68,8 +70,11 @@ class _DetailsManagerState extends State<DetailsManager> {
           title:Center(child: AppHeadingText(text: "Details",)),
         ),
         body: Container(
-            height: double.infinity,
-            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Color(0xffe7e8d1)
+            ),
 
 
 
@@ -83,7 +88,49 @@ class _DetailsManagerState extends State<DetailsManager> {
                   // CustomCard(
                   // child: AppHeadingText(text:"email: ${widget.email.toString()}",color: Colors.blue,size: 5,),
                   // ),
-                  AppHeadingText(text: "CustomerName: ${widget.name.toString()}")
+                  Padding(
+                    padding: const EdgeInsets.only(right:30),
+                    child: AppHeadingText(text: "CustomerName: ${widget.name.toString()}"),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: AppHeadingText(text: "Location Name: ${widget.locationname.toString()}"),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left:100),
+                    child: Row(
+                      children: [
+                        AppHeadingText(text: "Mobile",size: 28,),
+
+
+                        AppHeadingText(text:":${widget.mobile.toString()}",size: 28,)
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 60),
+                    child: AppHeadingText(text: "Date: ${widget.date.toString()}"),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left:20),
+                    child: AppHeadingText(text: "Time: ${widget.time.toString()}"),
+                  ),
+
 
                 ],
               ),

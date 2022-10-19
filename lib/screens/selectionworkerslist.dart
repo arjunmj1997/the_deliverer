@@ -12,7 +12,8 @@ class SelectionWorkers extends StatefulWidget {
   final String? payename;
   final String? adname;
   final String? adid;
-  const SelectionWorkers({Key? key, this.evid, this.payename, this.adname, this.adid}) : super(key: key);
+  final String? role;
+  const SelectionWorkers({Key? key, this.evid, this.payename, this.adname, this.adid, this.role}) : super(key: key);
 
   @override
   _SelectionWorkersState createState() => _SelectionWorkersState();
@@ -31,7 +32,7 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
         width: MediaQuery.of(context).size.width,
         child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                 .collection('assignments').where('event_id',isEqualTo: widget.evid).where('userstatus',isEqualTo: 3)
+                 .collection('assignments').where('event_id',isEqualTo: widget.evid).where('userstatus',isEqualTo: 3)//.where('status',isEqualTo: 2)
                  .snapshots(),
             builder: (context, snapshot) {
 
@@ -46,23 +47,38 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
                 );
               }
               else {
-                return ListView.builder(
+                return
+                  (widget.adname=="Admin")?
+                  ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context,int index){
                       return Padding(
                         padding: const EdgeInsets.only(top: 1),
                         child: ListTile(
-                          title: Text(snapshot.data!.docs[index]['name']),
+                            title: Padding(
+                            padding: const EdgeInsets.only(left:20),
+                            child: Text(snapshot.data!.docs[index]['name']),
+                          ),
                          trailing:GestureDetector(
                            onTap: (){
                              Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonPay(
                                payename: widget.payename,
                                receiveid: snapshot.data!.docs[index]['uid'],
                                receivename: snapshot.data!.docs[index]['name'],
-                               adid: widget.adid,
+                               payid: widget.adid,
                              )));
                            },
-                             child: RectangularButton(text:"Payment",hi:80,width:100))
+                             child: RectangularButton(text:"Payment",hi:80,width:80)),
+                         leading: GestureDetector(
+                            onTap: (){
+    FirebaseFirestore.instance.collection('user').doc(snapshot.data!.docs[index]['uid']).update(
+        {
+
+          'status': 2
+        } );
+                            },
+                          child: RectangularButton(text:"Cancel",hi:80,width:80)),
+
                          // subtitle:Text(snapshot.data!.docs[index]['mobile']),
 
 
@@ -74,7 +90,32 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
 
 
 
-                    });
+                    }):
+                  ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context,int index){
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 1),
+                          child: ListTile(
+                            title: Padding(
+                              padding: const EdgeInsets.only(left:20),
+                              child: Text(snapshot.data!.docs[index]['name']),
+                            ),
+
+
+
+                            // subtitle:Text(snapshot.data!.docs[index]['mobile']),
+
+
+
+
+                          ),
+                        );
+
+
+
+
+                      });
 
                 // return ListView.builder(
                 //   scrollDirection: Axis.vertical,

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:the_deliverer/screens/adminpage.dart';
 import 'package:the_deliverer/screens/homepage1.dart';
 import 'package:the_deliverer/screens/manager.dart';
@@ -26,6 +27,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameControler = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  var error;
   var loginkey = new GlobalKey<FormState>();
   bool? checked = false;
   @override
@@ -168,13 +170,13 @@ class _LoginPageState extends State<LoginPage> {
                                 if (usernameControler.text ==
                                         "admin@gmail.com" &&
                                     passwordController.text == "admin12345") {
-
-
-                                   Navigator.pushReplacement(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AdminPage(name: "Admin",
-                                          adid: "ad123id",)));
+                                          builder: (context) => AdminPage(
+                                                name: "Admin",
+                                                adid: "ad123id",
+                                              )));
                                 } else {
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
@@ -186,34 +188,56 @@ class _LoginPageState extends State<LoginPage> {
                                               .get()
                                               .then((value) {
                                             if (value.data()!['userrole'] ==
-                                                "user" ) {
+                                                "user") {
                                               FirebaseFirestore.instance
                                                   .collection('user')
                                                   .doc(user.user!.uid)
                                                   .get()
-                                                  .then(
+                                                  .then((value) {
+                                                print("helo");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomePage1(
+                                                      name:
+                                                          value.data()!['name'],
+                                                      mob: value
+                                                          .data()!['mobile'],
+                                                      emial: value
+                                                          .data()!['email'],
+                                                      uid: value.data()!['uid'],
+                                                      role: value
+                                                          .data()!['userrole'],
+                                                    ),
+                                                  ),
+                                                );
 
-
-                                                      (value) {
-
-                                                        print("helo");
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      HomePage1(name: value.data()!['name'],
-                                                                        mob: value.data()!['mobile'],
-                                                                        emial: value.data()!['email'],
-                                                                        uid: value.data()!['uid'],
-                                                                        role: value.data()!['userrole'],
-
-
-                                                                      ),
-                                                            ),
-                                                          );});
-                                            } else if (value.data()!['userrole'] ==
-                                                "manager"){
+                                                // else{
+                                                //   Fluttertoast.showToast(
+                                                //     msg: 'Invalid user name or password',
+                                                //     toastLength: Toast.LENGTH_LONG,
+                                                //     fontSize: 15,
+                                                //     gravity: ToastGravity.BOTTOM,
+                                                //     backgroundColor: Color(0XFF67949D),
+                                                //     textColor: Colors.white,
+                                                //   );
+                                                //   //ScaffoldMessenger.of(context)
+                                                //   //     .showSnackBar(SnackBar(
+                                                //   //   content: AppNormalText(
+                                                //   //     text: "Invalid username or password",
+                                                //   //     size: 19,
+                                                //   //     fw: FontWeight.bold,
+                                                //   //   ),
+                                                //   //   backgroundColor: Colors.blue,
+                                                //   //   elevation: 5.0,
+                                                //   //   dismissDirection: DismissDirection.endToStart,
+                                                //   // ));
+                                                // }
+                                              });
+                                            } else if (value
+                                                    .data()!['userrole'] ==
+                                                "manager") {
                                               FirebaseFirestore.instance
                                                   .collection('manager')
                                                   .doc(user.user!.uid)
@@ -224,21 +248,51 @@ class _LoginPageState extends State<LoginPage> {
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             ManagerProfile(
-                                                              uid: value.data()!['uid'],
-                                                              name: value.data()!['name'],
-                                                              mob: value.data()!['mobile'],
-                                                              emaill: value.data()!['email'],
-                                                              address: value.data()!['address'],
-                                                              experience: value.data()!['experience'],
-                                                              username: value.data()!['username'],
-                                                             password: value.data()!['password'],
-
-                                                            ),
+                                                          uid: value
+                                                              .data()!['uid'],
+                                                          name: value
+                                                              .data()!['name'],
+                                                          mob: value.data()![
+                                                              'mobile'],
+                                                          emaill: value
+                                                              .data()!['email'],
+                                                          address:
+                                                              value.data()![
+                                                                  'address'],
+                                                          experience:
+                                                              value.data()![
+                                                                  'experience'],
+                                                          username:
+                                                              value.data()![
+                                                                  'username'],
+                                                          password:
+                                                              value.data()![
+                                                                  'password'],
+                                                          role: value.data()![
+                                                              'userrole'],
+                                                        ),
                                                       ),
                                                     ),
                                                   );
                                             }
-                                          }));
+                                          })).catchError((err){
+                                     error=err;
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text("Please check username and password",),
+                                      //   backgroundColor: Colors.red,
+                                      //   duration: const Duration(milliseconds: 1500),
+                                      //   //width: 400.0, // Width of the SnackBar.
+                                      //   // padding: const EdgeInsets.symmetric(
+                                      //   //   horizontal: 8.0, // Inner padding for SnackBar content.
+                                      //   // ),
+                                      //   behavior: SnackBarBehavior.floating,
+                                      //   shape: RoundedRectangleBorder(
+                                      //     borderRadius: BorderRadius.circular(10.0),
+                                      // ),
+                                    ));
+
+
+                                  });
                                 }
                               }
                             },
