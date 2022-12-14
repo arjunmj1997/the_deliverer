@@ -32,7 +32,7 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
         width: MediaQuery.of(context).size.width,
         child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                 .collection('assignments').where('event_id',isEqualTo: widget.evid).where('userstatus',isEqualTo: 3)//.where('status',isEqualTo: 2)
+                 .collection('assignments').where('event_id',isEqualTo: widget.evid).where('userstatus',isEqualTo: 3).where('status',isEqualTo: 1)
                  .snapshots(),
             builder: (context, snapshot) {
 
@@ -71,7 +71,7 @@ class _SelectionWorkersState extends State<SelectionWorkers> {
                              child: RectangularButton(text:"Payment",hi:80,width:80)),
                          leading: GestureDetector(
                             onTap: (){
-    FirebaseFirestore.instance.collection('user').doc(snapshot.data!.docs[index]['uid']).update(
+    FirebaseFirestore.instance.collection('assignments').doc(snapshot.data!.docs[index]['assignmentid']).update(
         {
 
           'status': 2
