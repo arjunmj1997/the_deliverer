@@ -58,6 +58,7 @@ class _DetailsPageState extends State<DetailsPage> {
                      adid:'admin123',
                      role: widget.role,
                      adname: widget.adname,
+                     
                    )));
 
                 },

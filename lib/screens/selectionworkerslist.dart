@@ -13,7 +13,8 @@ class SelectionWorkers extends StatefulWidget {
   final String? adname;
   final String? adid;
   final String? role;
-  const SelectionWorkers({Key? key, this.evid, this.payename, this.adname, this.adid, this.role}) : super(key: key);
+  final String? date;
+  const SelectionWorkers({Key? key, this.evid, this.payename, this.adname, this.adid, this.role, this.date}) : super(key: key);
 
   @override
   _SelectionWorkersState createState() => _SelectionWorkersState();

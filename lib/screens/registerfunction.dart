@@ -90,6 +90,7 @@ class _RegisterFunctionState extends State<RegisterFunction> {
                         ),
                         //form fields start here
                         TextFormField(
+                          textCapitalization: TextCapitalization.words,
                           validator: (value) {
                             return Validate.namevalidator(namecontroller.text);
                           },
